@@ -3,7 +3,7 @@ import platform
 from datetime import datetime, timedelta
 from sys import argv
 import logging
-from typing import List, Any, Tuple
+from typing import List, Any, Tuple, Optional
 
 import aiohttp
 
@@ -41,7 +41,7 @@ async def list_urls() -> List[str]:
         urls.append(url)
     return urls
 
-async def request(url) -> Any or None:
+async def request(url: str) -> Optional[Any]:
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(url) as response:
@@ -53,7 +53,7 @@ async def request(url) -> Any or None:
             logging.error(f"Connection error {url}: {e}")
         return None
 
-async def get_exchange(url) -> List[str]:
+async def get_exchange(url: str) -> List[str]:
     res = await request(url)
     result = []
     if given_values()[1]:
